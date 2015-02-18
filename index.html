@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>html5 device sensor</title>
+<style>
+body {
+    font-size: 12px;
+}
+</style>
+</head>
+<body>
+    <h1>デバイスセンサー</h1>
+    <p>android 3以降 iOS safari 4.2以降</p>
+
+    <h2>deviceorientation: デバイスの方向の変化を検出(ジャイロ)</h2>
+    <div id="ele-alpha"></div>
+    <div id="ele-beta"></div>
+    <div id="ele-gamma"></div>
+
+    <h2>devicemotion: 加速度センサー</h2>
+    <div id="devicemotion"></div>
+
+<script>
+;(function (window, undefined) {
+
+    // deviceorientation: デバイスの方向の変化を検出したとき
+    // android 3以降 iOS safari 4.2以降
+    window.addEventListener("deviceorientation", function(e) {
+        var alpha = e.alpha,
+            beta = e.beta,
+            gamma = e.gamma,
+            eleAlpha = document.getElementById('ele-alpha'),
+            eleBeta = document.getElementById('ele-beta'),
+            eleGamma = document.getElementById('ele-gamma');
+
+        eleAlpha.innerHTML = 'ディスプレイ奥から手前方向 0から360: ' + alpha.toFixed(0);
+        eleBeta.innerHTML = 'ディスプレイ横軸と同方向 -180から180: ' + beta.toFixed(0);
+        eleGamma.innerHTML = 'ディスプレイ縦軸と同方向 -90から90: ' + gamma.toFixed(0);
+    }, true);
+
+    // devicemotion: 加速度センサー
+    window.addEventListener("devicemotion", function(e) {
+        //加速度
+        var x = e.acceleration.x;
+        var y = e.acceleration.y;
+        var z = e.acceleration.z;
+
+        //重力加速度
+        var xg = e.accelerationIncludingGravity.x;
+        var yg = e.accelerationIncludingGravity.y;
+        var zg = e.accelerationIncludingGravity.z;
+
+        //回転値
+        var a = e.rotationRate.alpha; //z方向
+        var b = e.rotationRate.beta; //x方向
+        var g = e.rotationRate.gamma; // y方向
+
+        var txt  = "加速度x:" + x.toFixed(0) + "<br>";
+            txt += "加速度y:" + y.toFixed(0) + "<br>";
+            txt += "加速度z:" + z.toFixed(0) + "<br>";
+
+            txt += "重力加速度x:" + xg.toFixed(0) + "<br>";
+            txt += "重力加速度y:" + yg.toFixed(0) + "<br>";
+            txt += "重力加速度z:" + zg.toFixed(0) + "<br>";
+
+            txt += "回転加速度alpha(z):" + a.toFixed(0) + "<br>";
+            txt += "回転加速度beta(x):" + b.toFixed(0) + "<br>";
+            txt += "回転加速度gamma(y):" + g.toFixed(0) + "<br>";
+
+        document.getElementById('devicemotion').innerHTML = txt;
+
+    }, true);
+
+
+}(this));
+</script>
+</body>
+</html>
